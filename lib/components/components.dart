@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
-
 import '../shared/bloc/cubit.dart';
 
 Widget screens(Map model, context) => Dismissible(
@@ -14,14 +12,14 @@ Widget screens(Map model, context) => Dismissible(
           height: 162,
           width: double.infinity,
           decoration: BoxDecoration(
-              color: HexColor('#e2eede'),
-              boxShadow: [
-                BoxShadow(
-                  color: HexColor('#abcea1'),
+              color: const Color(0xffe2eede),
+              boxShadow: const [
+                 BoxShadow(
+                  color: Color(0xffabcea1),
                   spreadRadius: 3
                 )
               ],
-              borderRadius: BorderRadius.circular(10)),
+              borderRadius: BorderRadius.circular(10),),
           child: Padding(
             padding: const EdgeInsets.only(
               top: 8,
@@ -31,51 +29,48 @@ Widget screens(Map model, context) => Dismissible(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                /// title
                 Text(
                   '${model['title']}',
-
-                  //  'title' ,
-
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
                   ),
                 ),
 
-                const SizedBox(
-                  height: 10,
-                ),
-
-                Row(
-                  children: [
-                    Text(
-                      '${model['date']}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                /// date and time
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Row(
+                    children: [
+                      Text(
+                        '${model['date']}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: Colors.teal
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    Text(
-                      '${model['time']}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                      const SizedBox(
+                        width: 30,
                       ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(
-                  height: 10,
+                      Text(
+                        '${model['time']}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.teal,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
 
                 Expanded(
                   child: Text(
                     '${model['tasks']}',
-                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
@@ -117,24 +112,17 @@ Widget screens(Map model, context) => Dismissible(
       ),
     );
 
-Widget usetextFormField({
+Widget defaultTextField({
   required TextEditingController controller,
-  TextInputType keyboardType = TextInputType.text,
   required String labelText,
   required String validatorText,
-  bool isPassword = false,
   Function()? onTap,
-  Function()? iconPressed,
-  Function(String)? onChanged,
-  Function(String)? onSubmitted,
-  double borderRadius = 30,
   required IconData prefixIcon,
-  IconData? endIcon,
+  bool hideKeyboard = false,
 }) =>
     TextFormField(
       onTap: onTap,
-      obscureText: isPassword,
-      onChanged: onChanged,
+      readOnly: hideKeyboard,
       controller: controller,
       validator: (value) {
         if (value!.isEmpty) {
@@ -142,13 +130,10 @@ Widget usetextFormField({
         }
         return null;
       },
-      onFieldSubmitted: onSubmitted,
-      keyboardType: keyboardType,
       decoration: InputDecoration(
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
+            borderRadius: BorderRadius.circular(30),
           ),
           labelText: labelText,
-          suffixIcon: IconButton(onPressed: iconPressed, icon: Icon(endIcon)),
-          prefixIcon: Icon(prefixIcon)),
+          prefixIcon: Icon(prefixIcon),),
     );

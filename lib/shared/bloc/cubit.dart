@@ -1,11 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_todo/shared/bloc/states.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../moduels/archived.dart';
-import '../../moduels/done.dart';
-import '../../moduels/task.dart';
+import '../../screens/archived.dart';
+import '../../screens/done.dart';
+import '../../screens/task.dart';
 
 
 class TodoCubit extends Cubit<TodoStates> {

@@ -16,4 +16,3 @@ class UpdateDBState extends TodoStates {}
 
 class DeleteDBState extends TodoStates {}
 
-

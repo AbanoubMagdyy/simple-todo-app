@@ -18,6 +18,7 @@ class TodoScreen extends StatelessWidget {
           return  Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
+              centerTitle: true,
               elevation: 0,
               backgroundColor: Colors.white,
               title: const Text(
@@ -50,7 +51,7 @@ class TodoScreen extends StatelessWidget {
                       Icons.archive,
                       color: Colors.black,
                     ),
-                    label: 'archived'),
+                    label: 'archived',),
               ],
             ),
             body:cubit.screens[cubit.currentIndex]

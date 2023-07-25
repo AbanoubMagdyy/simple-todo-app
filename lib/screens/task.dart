@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import '../../shared/bloc/cubit.dart';
 import '../../shared/bloc/states.dart';
@@ -30,8 +29,8 @@ class TaskScreen extends StatelessWidget {
                 height: 60,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    color: HexColor('#e2eede'),
-                    borderRadius: BorderRadius.circular(5)),
+                    color: const Color(0xffe2eede),
+                    borderRadius: BorderRadius.circular(5),),
                 child: Row(
                   children: [
                     const SizedBox(
@@ -48,10 +47,10 @@ class TaskScreen extends StatelessWidget {
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                         child: Container(
-                          color: HexColor('#abcea1'),
+                          color: const Color(0xffabcea1),
                           child: IconButton(
                               onPressed: () {
-                                if (cubit.showButton == true) {
+                                if (cubit.showButton) {
                                   if (formKey.currentState!.validate()) {
                                     Navigator.pop(context);
                                     cubit.showBS(false);
@@ -59,7 +58,7 @@ class TaskScreen extends StatelessWidget {
                                         title: titleController.text,
                                         time: timeController.text,
                                         date: dateController.text,
-                                        tasks: taskController.text);
+                                        tasks: taskController.text,);
                                   }
                                 } else {
                                   showBottomSheet(
@@ -76,7 +75,7 @@ class TaskScreen extends StatelessWidget {
                                                     const EdgeInsets.all(10.0),
                                                 child: Container(
                                                   width: double.infinity,
-                                                  color: HexColor('#e2eede'),
+                                                  color: const Color(0xffe2eede),
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.all(
@@ -85,22 +84,22 @@ class TaskScreen extends StatelessWidget {
                                                       mainAxisSize:
                                                           MainAxisSize.min,
                                                       children: [
-                                                        usetextFormField(
+                                                        /// title
+                                                        defaultTextField(
                                                             onTap: () {},
                                                             validatorText:
                                                                 'title is empty',
                                                             controller:
                                                                 titleController,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .text,
                                                             labelText: 'title',
                                                             prefixIcon:
-                                                                Icons.title),
+                                                                Icons.title,),
                                                         const SizedBox(
                                                           height: 10,
                                                         ),
-                                                        usetextFormField(
+                                                        /// date
+                                                        defaultTextField(
+                                                          hideKeyboard: true,
                                                             onTap: () {
                                                               showDatePicker(
                                                                       context:
@@ -116,11 +115,9 @@ class TaskScreen extends StatelessWidget {
                                                                               '2199-11-31'))
                                                                   .then(
                                                                       (value) {
-                                                                dateController
-                                                                    .text = DateFormat
-                                                                        .yMMMd()
-                                                                    .format(
-                                                                        value!);
+                                                                        if(value != null){
+                                                                          dateController.text = DateFormat.yMMMd().format(value);
+                                                                        }
                                                               });
                                                             },
                                                             validatorText:
@@ -133,7 +130,9 @@ class TaskScreen extends StatelessWidget {
                                                         const SizedBox(
                                                           height: 10,
                                                         ),
-                                                        usetextFormField(
+                                                        /// time
+                                                        defaultTextField(
+                                                          hideKeyboard: true,
                                                             onTap: () {
                                                               showTimePicker(
                                                                       context:
@@ -143,11 +142,12 @@ class TaskScreen extends StatelessWidget {
                                                                               .now())
                                                                   .then(
                                                                       (value) {
-                                                                timeController
+                                                                        if(value != null) {
+                                                                          timeController
                                                                     .text = value
-                                                                        ?.format(
-                                                                            context)
-                                                                    as String;
+                                                                        .format(
+                                                                            context);
+                                                                        }
                                                               });
                                                             },
                                                             validatorText:
@@ -160,15 +160,13 @@ class TaskScreen extends StatelessWidget {
                                                         const SizedBox(
                                                           height: 10,
                                                         ),
-                                                        usetextFormField(
+                                                        /// task
+                                                        defaultTextField(
                                                             onTap: () {},
                                                             validatorText:
                                                                 'tasks is empty',
                                                             controller:
                                                                 taskController,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .text,
                                                             labelText: 'Tasks',
                                                             prefixIcon:
                                                                 Icons.task_alt),
@@ -182,14 +180,22 @@ class TaskScreen extends StatelessWidget {
                                         );
                                       }).closed.then((value) {
                                     cubit.showBS(false);
+                                    titleController.clear();
+                                    taskController.clear();
+                                    timeController.clear();
+                                    dateController.clear();
                                   });
                                   cubit.showBS(true);
                                 }
                               },
-                              icon: const Icon(
+                              icon: cubit.showButton == false ? const Icon(
                                 Icons.add,
                                 size: 30,
-                              )),
+                              ) : const Icon(
+                                Icons.check,
+                                size: 30,
+                              ),
+                          ),
                         ))
                   ],
                 ),

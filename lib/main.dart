@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simple_todo/shared/bloc/cubit.dart';
 import 'layout/todo_screen.dart';
 
 void main() {
@@ -11,13 +12,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return  MaterialApp(
-       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch:  Colors.teal,
+    return BlocProvider<TodoCubit>(
+      create: (context)=>TodoCubit()..createDB(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.teal,
+        ),
+        home: TodoScreen(),
       ),
-      home: const TodoScreen(),
     );
   }
 }

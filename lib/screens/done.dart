@@ -23,21 +23,12 @@ class DoneScreen extends StatelessWidget {
           ),
         ) :  Column(
           children: [
-            const Text(
-              'Done',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
+
             Expanded(
               child: ListView.separated(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  itemBuilder: (context, index) => screens(cubit.newDone[index],context),
+                  itemBuilder: (context, index) => todoItem(cubit.newDone[index],context),
                   separatorBuilder: (context, index) => const SizedBox(height: 0),
                   itemCount: cubit.newDone.length),
             )

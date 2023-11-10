@@ -1,9 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_todo/shared/bloc/states.dart';
 import 'package:sqflite/sqflite.dart';
-
 import '../../screens/archived.dart';
 import '../../screens/done.dart';
 import '../../screens/task.dart';
@@ -14,9 +12,10 @@ class TodoCubit extends Cubit<TodoStates> {
 
   bool showButton = false;
   Database? dataBase;
-  List<Map> newTasks = [];
+  List<Map> newTask = [];
   List<Map> newDone = [];
   List<Map> newArchived = [];
+  List<Map> allTasks = [];
   IconData doneIcon =    Icons.cloud_done_outlined;
 
 
@@ -73,7 +72,8 @@ class TodoCubit extends Cubit<TodoStates> {
   }
 
   void getDateFromDB(database) {
-    newTasks =[];
+    allTasks=[];
+    newTask =[];
     newDone = [];
     newArchived = [];
 
@@ -81,8 +81,9 @@ class TodoCubit extends Cubit<TodoStates> {
 
 
     value.forEach((element){
+      allTasks.add(element);
       if(element['status'] == 'new'){
-        newTasks.add(element);
+        newTask.add(element);
       }
       else  if(element['status'] == 'done'){
         newDone.add(element);
@@ -90,7 +91,6 @@ class TodoCubit extends Cubit<TodoStates> {
         newArchived.add(element);
       }
     });
-
       emit(GetDBState());
     });
   }

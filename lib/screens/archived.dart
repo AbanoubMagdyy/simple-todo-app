@@ -25,21 +25,11 @@ class ArchivedScreen extends StatelessWidget {
         ) :
         Column(
           children: [
-            const Text(
-              'Archived',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
             Expanded(
               child: ListView.separated(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  itemBuilder: (context, index) => screens(cubit.newArchived[index],context),
+                  itemBuilder: (context, index) => todoItem(cubit.newArchived[index],context),
                   separatorBuilder: (context, index) => const SizedBox(height: 0),
                   itemCount: cubit.newArchived.length),
             )
